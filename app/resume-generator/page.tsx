@@ -107,24 +107,24 @@ export default function ResumeGeneratorPage() {
     }))
   }
 
-  const addExperience = () => {
-    setResumeData((prev) => ({
-      ...prev,
-      experience: [
-        ...prev.experience,
-        {
-          id: Date.now(),
-          company: "",
-          position: "",
-          location: "",
-          startDate: "",
-          endDate: "",
-          current: false,
-          description: "",
-        },
-      ],
-    }))
-  }
+const addExperience = () => {
+  setResumeData((prev) => ({
+    ...prev,
+    experience: [
+      ...(prev.experience || []), // Safeguard in case `experience` is undefined
+      {
+        id: Date.now(),
+        company: "",
+        position: "",
+        location: "",
+        startDate: "",
+        endDate: "",
+        current: false,
+        description: "",
+      },
+    ],
+  }));
+};
 
   const removeExperience = (id: number) => {
     setResumeData((prev) => ({
