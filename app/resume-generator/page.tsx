@@ -17,45 +17,79 @@ import { toast } from "@/hooks/use-toast"
 
 export default function ResumeGeneratorPage() {
   const [activeTab, setActiveTab] = useState("personal")
-  const [resumeData, setResumeData] = useState({
-    personal: {
-      fullName: "",
-      email: "",
-      phone: "",
-      location: "",
-      linkedin: "",
-      website: "",
-      summary: "",
-    },
-    education: [
-      {
-        id: Date.now(),
-        institution: "",
-        degree: "",
-        field: "",
-        startDate: "",
-        endDate: "",
-        description: "",
+  const [resumeData, setResumeData] = useState<{
+      personal: {
+        fullName: string,
+        email: string,
+        phone: string,
+        location: string,
+        linkedin: string,
+        website: string,
+        summary: string,
       },
-    ],
-    experience: [
-      {
-        id: Date.now(),
-        company: "",
-        position: "",
+      education: {
+        id: number,
+        institution: string,
+        degree: string,
+        field: string,
+        startDate: string,
+        endDate: string,
+        description: string,
+      }[],
+      experience: {
+        id: number,
+        company: string,
+        position: string,
+        location: string,
+        startDate: string,
+        endDate: string,
+        current: boolean,
+        description: string,
+      }[],
+      skills: string[],
+      newSkill: string,
+      template: string,
+      isGenerating: boolean,
+      error: string,
+    }>({
+      personal: {
+        fullName: "",
+        email: "",
+        phone: "",
         location: "",
-        startDate: "",
-        endDate: "",
-        current: false,
-        description: "",
+        linkedin: "",
+        website: "",
+        summary: "",
       },
-    ],
-    skills: [],
-    newSkill: "",
-    template: "modern",
-    isGenerating: false,
-    error: "",
-  })
+      education: [
+        {
+          id: Date.now(),
+          institution: "",
+          degree: "",
+          field: "",
+          startDate: "",
+          endDate: "",
+          description: "",
+        },
+      ],
+      experience: [
+        {
+          id: Date.now(),
+          company: "",
+          position: "",
+          location: "",
+          startDate: "",
+          endDate: "",
+          current: false,
+          description: "",
+        },
+      ],
+      skills: [],
+      newSkill: "",
+      template: "modern",
+      isGenerating: false,
+      error: "",
+    })
 
   const handlePersonalInfoChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -144,12 +178,10 @@ export default function ResumeGeneratorPage() {
     if (resumeData.newSkill.trim() && !resumeData.skills.includes(resumeData.newSkill.trim())) {
       setResumeData((prev) => ({
         ...prev,
-        skills: [...prev.skills, prev.newSkill.trim()],\
-        new  => ({
-        ...prev,
         skills: [...prev.skills, prev.newSkill.trim()],
         newSkill: "",
       }))
+    }
   }
 
   const removeSkill = (skill: string) => {
